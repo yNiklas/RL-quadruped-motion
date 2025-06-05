@@ -1,0 +1,15 @@
+<include>
+  <actuator>
+    <motor name="FL_HFE" gear="1" joint="FL_HFE"/>
+    <motor name="FL_KFE" gear="1" joint="FL_KFE"/>
+
+    <motor name="FR_HFE" gear="1" joint="FR_HFE"/>
+    <motor name="FR_KFE" gear="1" joint="FR_KFE"/>
+
+    <motor name="HL_HFE" gear="1" joint="HL_HFE"/>
+    <motor name="HL_KFE" gear="1" joint="HL_KFE"/>
+
+    <motor name="HR_HFE" gear="1" joint="HR_HFE"/>
+    <motor name="HR_KFE" gear="1" joint="HR_KFE"/>
+  </actuator>
+</include>
