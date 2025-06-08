@@ -91,18 +91,18 @@ class QuadrupedEnv(gym.Env):
         return np.concatenate([qpos, qvel, acc, gyro, [roll, pitch], prev_action])
 
     def _compute_reward(self, action):
-        v_ref = 1.5 # Reference velocity in x direction
-        r_vx = 6 * math.exp(-abs(v_ref-self.data.qvel[0])**2) # Velocity of the robot base in x direction
+        v_ref = 0.5 # Reference velocity in x direction
+        r_vx = 4 * math.exp(-abs(v_ref-self.data.qvel[0])**2) # Velocity of the robot base in x direction
 
         upright_z = 0.26 # Z position of the robot base when upright
-        r_z = -10 * abs(self.data.qpos[2] - upright_z) # Vertical position of the robot base
+        r_z = np.exp(-((self.data.qpos[2] - upright_z) ** 2) / (2 * 0.05 ** 2))#-25 * abs(self.data.qpos[2] - upright_z) # Vertical position of the robot base
 
         joint_angles = self.data.qpos[self.joint_qpos_idx]
         r_homing_similarity = -0.2 * np.sum(np.abs(joint_angles - self.homing_qpos)**2) # Similarity to the homing position
 
-        r_action_similarity = -0.005 * np.sum(np.abs(action - self.last_action)**2) if self.last_action is not None else 0
+        r_action_similarity = -0.12 * np.sum(np.abs(action - self.last_action)**2) if self.last_action is not None else 0
 
-        r_vz = -0.1 * self.data.qvel[2]**2 # Vertical velocity of the robot base
+        r_vz = -0.05 * self.data.qvel[2]**2 # Vertical velocity of the robot base
 
         quat = self.data.qpos[3:7] # Orientation of the robot base in quaternion
         roll, pitch, _ = R.from_quat([quat[1], quat[2], quat[3], quat[0]]).as_euler('xyz')
