@@ -3,10 +3,10 @@ import time
 from stable_baselines3 import PPO
 from stable_baselines3.common.env_util import make_vec_env
 
-from quadruped_env import QuadrupedEnv
+from walker_quadruped_env import WalkerQuadrupedEnv
 
-env = make_vec_env(QuadrupedEnv, n_envs=1)
-model = PPO.load("quadruped_ppo_model", env=env, device="cuda")
+env = make_vec_env(WalkerQuadrupedEnv, n_envs=1)
+model = PPO.load("quadruped_ppo_model_gauss", env=env, device="cuda")
 
 obs = env.reset()
 
