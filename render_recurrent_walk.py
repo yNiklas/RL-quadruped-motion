@@ -1,13 +1,12 @@
 import time
 
 from sb3_contrib import RecurrentPPO
-from stable_baselines3 import PPO
 from stable_baselines3.common.env_util import make_vec_env
 
-from jumper_quadruped_env import JumperQuadrupedEnv
+from recurrent_walker_quadruped_env import RecurrentWalkerEnv
 
-env = make_vec_env(JumperQuadrupedEnv, n_envs=1)
-model = RecurrentPPO.load("quadruped_lstm_ppo_jump", env=env, device="cuda")
+env = make_vec_env(RecurrentWalkerEnv, n_envs=1)
+model = RecurrentPPO.load("quadruped_lstm_ppo", env=env, device="cuda")
 
 obs = env.reset()
 

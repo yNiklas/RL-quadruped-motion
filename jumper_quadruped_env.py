@@ -34,7 +34,7 @@ class JumperQuadrupedEnv(QuadrupedEnv):
 
     def _compute_reward(self, action):
         z_ref = 0.5 # Reference height for the robot base (standing robot is ~0.3)
-        r_z = math.exp(-abs(z_ref - self.data.qpos[2]) ** 2 / (2 * 0.04 ** 2))
+        r_z = 4*max(0.0, self.data.qpos[2] - 0.28) / 0.2 #r_z = math.exp(-abs(z_ref - self.data.qpos[2]) ** 2 / (2 * 0.04 ** 2))
 
         quat = self.data.qpos[3:7]
         roll, pitch, _ = R.from_quat([quat[1], quat[2], quat[3], quat[0]]).as_euler('xyz')
@@ -50,7 +50,7 @@ class JumperQuadrupedEnv(QuadrupedEnv):
             "reward/r_orientation": r_orient
         }
 
-        return r_z + 0.5 * r_orient + r_effort
+        return r_z + 0.3 * r_orient + r_effort
 
     def _is_collapsed(self, state):
         roll, pitch = (state[-10], state[-9])
