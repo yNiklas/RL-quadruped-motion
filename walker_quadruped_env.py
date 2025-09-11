@@ -42,24 +42,21 @@ class WalkerQuadrupedEnv(QuadrupedEnv):
 
     def _compute_reward(self, action):
         v_ref = 0.5  # Reference velocity in x direction
-        r_vx = 3 * math.exp(-abs(v_ref - self.data.qvel[0]) ** 2)  # Velocity of the robot base in x direction
+        r_vx = 2.15 * math.exp(-(v_ref - self.data.qvel[0]) ** 2 / (2*0.3**2))  # Velocity of the robot base in x direction
 
         upright_z = 0.26  # Z position of the robot base when upright
-        r_z = np.exp(-((self.data.qpos[2] - upright_z) ** 2) / (
-                2 * 0.04 ** 2))  # -25 * abs(self.data.qpos[2] - upright_z) # Vertical position of the robot base
+        r_z = 1.75*np.exp(-((self.data.qpos[2] - upright_z) ** 2) / (2 * 0.04 ** 2))  # -25 * abs(self.data.qpos[2] - upright_z) # Vertical position of the robot base
 
         joint_angles = self.data.qpos[self.joint_qpos_idx]
         sigma_homing = 1
-        r_homing_similarity = np.exp(-np.sum((joint_angles - self.homing_qpos) ** 2) / (2 * sigma_homing ** 2))
+        r_homing_similarity = 0.75*np.exp(-np.sum((joint_angles - self.homing_qpos) ** 2) / (2 * sigma_homing ** 2))
 
         # Action similarity
-        sigma_action = 1.7
+        sigma_action = 1.2
         if self.last_action is not None:
-            r_action_similarity = np.exp(-np.sum((action - self.last_action) ** 2) / (2 * sigma_action ** 2))
+            r_action_similarity = 1.75*np.exp(-np.sum((action - self.last_action) ** 2) / (2 * sigma_action ** 2))
         else:
             r_action_similarity = 0
-
-        r_vz = -0.05 * self.data.qvel[2] ** 2  # Vertical velocity of the robot base
 
         quat = self.data.qpos[3:7]  # Orientation of the robot base in quaternion
         roll, pitch, _ = R.from_quat([quat[1], quat[2], quat[3], quat[0]]).as_euler('xyz')
@@ -74,11 +71,12 @@ class WalkerQuadrupedEnv(QuadrupedEnv):
             "reward/r_z": r_z,
             "reward/r_homing_similarity": r_homing_similarity,
             "reward/r_action_similarity": r_action_similarity,
-            "reward/r_vz": r_vz,
             "reward/r_orientation": r_orientation
         }
 
-        return r_vx + r_z + r_homing_similarity + r_action_similarity + r_vz + r_orientation
+        r_x = self.data.qpos[0] # Reward for achieved walking distance in x direction
+
+        return r_vx + r_z + r_homing_similarity + r_action_similarity + r_orientation + r_x
 
     def _is_collapsed(self, state):
         roll, pitch = (state[-10], state[-9])

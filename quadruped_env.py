@@ -24,6 +24,10 @@ class QuadrupedEnv(gym.Env):
         self.accel_idx = self.model.sensor("accelerometer").adr[0]
         self.gyro_idx = self.model.sensor("gyroscope").adr[0]
         self.framequat_idx = self.model.sensor("orientation_sensor").adr[0]
+        self.fl_foot_contact_idx = self.model.sensor("FL_contact_sensor").adr[0]
+        self.fr_foot_contact_idx = self.model.sensor("FR_contact_sensor").adr[0]
+        self.hl_foot_contact_idx = self.model.sensor("HL_contact_sensor").adr[0]
+        self.hr_foot_contact_idx = self.model.sensor("HR_contact_sensor").adr[0]
 
         # Init observation and action spaces
         self._init_spaces()

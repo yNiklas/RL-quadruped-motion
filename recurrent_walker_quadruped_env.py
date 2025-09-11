@@ -40,11 +40,11 @@ class RecurrentWalkerEnv(QuadrupedEnv):
         return np.concatenate([qpos, qvel, acc, gyro, [roll, pitch]])
 
     def _compute_reward(self, action):
-        v_ref = 0.8  # Reference velocity in x direction
-        r_vx = 4 * math.exp(-abs(v_ref - self.data.qvel[0]) ** 2)  # Velocity of the robot base in x direction
+        v_ref = 0.5  # Reference velocity in x direction
+        r_vx = 2.5 * math.exp(-abs(v_ref - self.data.qvel[0]) ** 2)  # Velocity of the robot base in x direction
 
         upright_z = 0.26  # Z position of the robot base when upright
-        r_z = np.exp(-((self.data.qpos[2] - upright_z) ** 2) / (2 * 0.05 ** 2))  # -25 * abs(self.data.qpos[2] - upright_z) # Vertical position of the robot base
+        r_z = 2*np.exp(-((self.data.qpos[2] - upright_z) ** 2) / (2 * 0.04 ** 2))  # -25 * abs(self.data.qpos[2] - upright_z) # Vertical position of the robot base
 
         joint_angles = self.data.qpos[self.joint_qpos_idx]
         sigma_homing = 1

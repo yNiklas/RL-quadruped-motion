@@ -10,7 +10,7 @@ model = PPO.load("quadruped_ppo_model_gauss", env=env, device="cuda")
 
 obs = env.reset()
 
-for _ in range(1000):
+for _ in range(10000):
     action, _ = model.predict(obs)
     obs, reward, done, info = env.step(action)
     env.envs[0].render()
