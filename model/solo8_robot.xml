@@ -17,10 +17,10 @@
         <inertial pos="0 0.00776716 -0.07003876" fullinertia="0.00008508 0.00008580 0.00000139 0 0 -0.00000200" mass="0.02318294"/>
         <joint name="FL_KFE" pos="0 0 0" axis="0 1 0" limited="true" range="-3.14 3.14" actuatorfrcrange="-2.7 2.7"/>
         <geom name="FL_LOWER_LEG_VISUAL" type="mesh" mesh="solo_lower_leg_left_side"/>
-        <geom name="FL_FOOT_GEOM" type="sphere" size="0.02" pos="0 0 -0.16" contype="1" conaffinity="1"/>
+        <geom name="FL_FOOT_GEOM" type="sphere" size="0.013" pos="0 0.0075 -0.16" contype="1" conaffinity="1"/>
 
         <!-- Foot contact sensor -->
-        <site name="FL_contact_site" pos="0 0 -0.16" type="sphere" size="0.01"/>
+        <site name="FL_contact_site" pos="0 0.0075 -0.16" type="sphere" size="0.013"/>
       </body>
     </body>
 
@@ -36,9 +36,10 @@
         <inertial pos="0 -0.00776716 -0.07003876" fullinertia="0.00008508 0.00008580 0.00000139 0 0 0.00000200" mass="0.02318294"/>
         <joint name="FR_KFE" pos="0 0 0" axis="0 1 0" limited="true" range="-3.14 3.14" actuatorfrcrange="-2.7 2.7"/>
         <geom name="FR_LOWER_LEG_VISUAL" type="mesh" mesh="solo_lower_leg_right_side"/>
+        <geom name="FR_FOOT_GEOM" type="sphere" size="0.013" pos="0 -0.0075 -0.16" contype="1" conaffinity="1"/>
 
         <!-- Foot contact sensor -->
-        <site name="FR_contact_site" pos="0 0 -0.16" type="sphere" size="0.01"/>
+        <site name="FR_contact_site" pos="0 -0.0075 -0.16" type="sphere" size="0.013"/>
       </body>
     </body>
 
@@ -54,9 +55,10 @@
         <inertial pos="0 0.00776716 -0.07003876" fullinertia="0.00008508 0.00008580 0.00000139 0 0 -0.00000200" mass="0.02318294"/>
         <joint name="HL_KFE" pos="0 0 0" axis="0 1 0" limited="true" range="-3.14 3.14" actuatorfrcrange="-2.7 2.7"/>
         <geom name="HL_LOWER_LEG_VISUAL" type="mesh" mesh="solo_lower_leg_left_side"/>
+        <geom name="HL_FOOT_GEOM" type="sphere" size="0.013" pos="0 0.0075 -0.16" contype="1" conaffinity="1"/>
 
         <!-- Foot contact sensor -->
-        <site name="HL_contact_site" pos="0 0 -0.16" type="sphere" size="0.01"/>
+        <site name="HL_contact_site" pos="0 0.0075 -0.16" type="sphere" size="0.013"/>
       </body>
     </body>
 
@@ -72,9 +74,10 @@
         <inertial pos="0 -0.00776716 -0.07003876" fullinertia="0.00008508 0.00008580 0.00000139 0 0 0.00000200" mass="0.02318294"/>
         <joint name="HR_KFE" pos="0 0 0" axis="0 1 0" limited="true" range="-3.14 3.14" actuatorfrcrange="-2.7 2.7"/>
         <geom name="HR_LOWER_LEG_VISUAL" type="mesh" mesh="solo_lower_leg_right_side"/>
+        <geom name="HR_FOOT_GEOM" type="sphere" size="0.013" pos="0 -0.0075 -0.16" contype="1" conaffinity="1"/>
 
         <!-- Foot contact sensor -->
-        <site name="HR_contact_site" pos="0 0 -0.16" type="sphere" size="0.01"/>
+        <site name="HR_contact_site" pos="0 -0.0075 -0.16" type="sphere" size="0.013"/>
       </body>
     </body>
   </body>

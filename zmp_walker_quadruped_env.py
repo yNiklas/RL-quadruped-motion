@@ -12,7 +12,7 @@ import math
 class ZMPWalkerQuadrupedEnv(QuadrupedEnv):
     def __init__(self):
         super().__init__()
-        self.foot_geom_ids = [self.model.geom(name).id for name in ["FL_FOOT_GEOM"]]
+        self.foot_geom_ids = [self.model.geom(name).id for name in ["FL_FOOT_GEOM", "FR_FOOT_GEOM", "HL_FOOT_GEOM", "HR_FOOT_GEOM"]]
 
     def _init_spaces(self):
         self.obs_length = 4 * 2 + 8 + 3 + 2 + 4 + 8  # 4 legs * 2 joint angles + 8 joints velocities + 3d base gyro + (roll, pitch) + 4 foot contacts + 8 previous action
@@ -130,7 +130,7 @@ class ZMPWalkerQuadrupedEnv(QuadrupedEnv):
             return 1.0 if zmp_in_sp else -1.0
         elif len(foot_contact_pos_2d) == 2:
             distance_to_line = np.abs(np.cross(fcs[1] - fcs[0], fcs[0] - zmp)) / np.linalg.norm(fcs[1] - fcs[0])
-            # Only small difference is okay, since the robot is small
+            # Only a small difference is okay, since the robot is small
             return np.clip(1 - 20*distance_to_line, -1.0, 1.0)
         else:
             return -1.0
