@@ -24,7 +24,9 @@ class LoggerCallback(BaseCallback):
             "reward/r_homing_similarity",
             "reward/r_action_similarity",
             "reward/r_vz",
-            "reward/r_orientation"
+            "reward/r_orientation",
+            "reward/r_upright",
+            "reward/r_zmp"
         ]
 
         # Compute mean across parallel environments
