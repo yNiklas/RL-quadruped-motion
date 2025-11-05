@@ -56,11 +56,11 @@ class ZMPWalkerQuadrupedEnv(QuadrupedEnv):
         #v_ref = 0.5  # Reference velocity in x direction
         #r_vx = 0 * math.exp(-(v_ref - self.data.qvel[0]) ** 2 / (2*0.3**2))  # Velocity of the robot base in x direction
         #p_vx = -4*abs(v_ref-self.data.qvel[0])
-        r_vx = max(0, 3*min(self.data.qvel[0], 0.5))
+        r_vx = max(0, 2*min(self.data.qvel[0], 0.5))
 
         joint_angles = self.data.qpos[self.joint_qpos_idx]
         sigma_homing = 1
-        r_homing_similarity = 0.75*np.exp(-np.sum((joint_angles - self.homing_qpos) ** 2) / (2 * sigma_homing ** 2))
+        r_homing_similarity = 0.3*np.exp(-np.sum((joint_angles - self.homing_qpos) ** 2) / (2 * sigma_homing ** 2))
 
         # Action similarity
         sigma_action = 1
@@ -74,8 +74,8 @@ class ZMPWalkerQuadrupedEnv(QuadrupedEnv):
         r_orientation = 0#5*(roll**2 + pitch**2)
 
         cur_z = self.data.qpos[2]
-        desired_z = 0.26
-        r_upright = 0.8*math.exp(-(desired_z - cur_z) ** 2 / (2*0.04**2))
+        desired_z = 0.24
+        r_upright = 0.3*math.exp(-(desired_z - cur_z) ** 2 / (2*0.04**2))
 
         r_zmp = self._calculate_zmp_reward()
 
@@ -94,7 +94,7 @@ class ZMPWalkerQuadrupedEnv(QuadrupedEnv):
 
         r_x = 1*self.data.qpos[0] # Reward for achieved walking distance in x direction
 
-        return r_vx + r_zmp + r_homing_similarity + r_action_similarity + r_x + r_orientation + r_upright
+        return r_vx + r_zmp + r_homing_similarity + r_action_similarity + r_orientation + r_upright
 
     def _is_collapsed(self, state):
         roll, pitch = (state[-10], state[-9])
@@ -132,16 +132,16 @@ class ZMPWalkerQuadrupedEnv(QuadrupedEnv):
         zmp = self._calculate_zmp(total_force, total_moment)
         if zmp is None:
             # Reward foot contact
-            return len(foot_contact_pos_2d)-1
+            return (len(foot_contact_pos_2d)-1)/4 if len(foot_contact_pos_2d)>0 else -1
         if len(foot_contact_pos_2d) >= 3:
             hull = ConvexHull(foot_contact_pos_2d)
             path = Path(fcs[hull.vertices])
             zmp_in_sp = path.contains_point(zmp)
-            return 10.0 if zmp_in_sp else -1.0
+            return 1 if zmp_in_sp else -1.0
         elif len(foot_contact_pos_2d) == 2:
             distance_to_line = np.abs(np.cross(fcs[1] - fcs[0], fcs[0] - zmp)) / np.linalg.norm(fcs[1] - fcs[0])
             # Only a small difference is okay, since the robot is small
-            return np.clip(1 - 20*distance_to_line, -1.0, 1.0) + 2 #reward for having 2 feet in contact
+            return np.clip(1 - 20*distance_to_line, -0.33, 0.66) + 0.33 #reward for having 2 feet in contact
         else:
             # Penalize if less than 2 feet are in contact
             return -1

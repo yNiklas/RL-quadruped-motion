@@ -1,7 +1,9 @@
-# Robot Walking With Reinforcement Learning
+# Quadruped Walking With Reinforcement Learning
 This repository contains code to train an RL agent for different tasks.
 The abstract [QuadrupedEnv](./quadruped_env.py) class can be extended to create custom environments for different tasks.
 Every implemented task includes a environment class, a training script, and a rendering script.
+
+![Demo](demo/demo_zmp_walk.gif)
 
 ## Implemented Tasks
 ### Walking
